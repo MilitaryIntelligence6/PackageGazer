@@ -53,6 +53,7 @@ public class GazeService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        // sc
         if (timer == null) {
             timer = new Timer();
             timer.scheduleAtFixedRate(new RefreshTask(), 0, 500);

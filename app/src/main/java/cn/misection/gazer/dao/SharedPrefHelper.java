@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-import cn.misection.gazer.constant.EnumPrefKey;
+import cn.misection.gazer.constant.dao.EnumPrefKey;
 
 /**
  * @author Administrator

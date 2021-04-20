@@ -11,21 +11,20 @@ import android.support.v4.app.NotificationCompat;
 
 import cn.misection.gazer.MainActivity;
 import cn.misection.gazer.R;
-import cn.misection.gazer.constant.EnumStringPool;
+import cn.misection.gazer.constant.common.EnumStringPool;
+import cn.misection.gazer.constant.receiver.EnumActionCode;
+import cn.misection.gazer.constant.receiver.EnumActionString;
+import cn.misection.gazer.constant.receiver.EnumNotification;
 import cn.misection.gazer.dao.SharedPrefHelper;
-import cn.misection.gazer.service.SettingTileService;
 import cn.misection.gazer.view.GazeView;
 
 import java.util.List;
 
 
+/**
+ * @author Administrator
+ */
 public class NotificationActionReceiver extends BroadcastReceiver {
-    public static final int NOTIFICATION_ID = 1;
-    public static final String ACTION_NOTIFICATION_RECEIVER = "cn.misection.gazer.ACTION_NOTIFICATION_RECEIVER";
-    public static final int ACTION_PAUSE = 0;
-    public static final int ACTION_RESUME = 1;
-    public static final int ACTION_STOP = 2;
-    public static final String EXTRA_NOTIFICATION_ACTION = "command";
 
     public static void showNotification(Context context, boolean isPaused) {
         if (!SharedPrefHelper.isNotificationToggleEnabled(context)) {
@@ -42,39 +41,47 @@ public class NotificationActionReceiver extends BroadcastReceiver {
                 .setOngoing(!isPaused);
         if (isPaused) {
             builder.addAction(R.drawable.ic_noti_action_resume, context.getString(R.string.noti_action_resume),
-                    getPendingIntent(context, ACTION_RESUME));
+                    getPendingIntent(context, EnumActionCode.RESUME.value()));
         } else {
             builder.addAction(R.drawable.ic_noti_action_pause,
                     context.getString(R.string.noti_action_pause),
-                    getPendingIntent(context, ACTION_PAUSE));
+                    getPendingIntent(context, EnumActionCode.PAUSE.value()));
         }
 
         builder.addAction(R.drawable.ic_noti_action_stop,
                 context.getString(R.string.noti_action_stop),
-                getPendingIntent(context, ACTION_STOP))
+                getPendingIntent(context, EnumActionCode.STOP.value()))
                 .setContentIntent(pIntent);
 
         NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        nm.notify(NOTIFICATION_ID, builder.build());
-
+        nm.notify(
+                EnumNotification.ID.value(),
+                builder.build());
     }
 
     public static PendingIntent getPendingIntent(Context context, int command) {
-        Intent intent = new Intent(ACTION_NOTIFICATION_RECEIVER);
-        intent.putExtra(EXTRA_NOTIFICATION_ACTION, command);
+        Intent intent = new Intent(
+                EnumActionString.NOTIFICATION_RECEIVER.value());
+        intent.putExtra(
+                EnumActionString.EXTRA_NOTIFICATION.value(),
+                command);
         return PendingIntent.getBroadcast(context, command, intent, 0);
     }
 
     public static void cancelNotification(Context context) {
         NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        nm.cancel(NOTIFICATION_ID);
+        nm.cancel(
+                EnumNotification.ID.value()
+        );
     }
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        int command = intent.getIntExtra(EXTRA_NOTIFICATION_ACTION, -1);
-        switch (command) {
-            case ACTION_RESUME: {
+        int command = intent.getIntExtra(
+                EnumActionString.EXTRA_NOTIFICATION.value(),
+                -1);
+        switch (EnumActionCode.selectByOrdinal(command)) {
+            case RESUME: {
                 showNotification(context, false);
                 SharedPrefHelper.setIsShowWindow(context, true);
                 boolean lollipop = Build.VERSION.SDK_INT >= 21;
@@ -90,18 +97,18 @@ public class NotificationActionReceiver extends BroadcastReceiver {
                 }
                 break;
             }
-            case ACTION_PAUSE: {
+            case PAUSE: {
                 showNotification(context, true);
                 GazeView.dismiss(context);
                 SharedPrefHelper.setIsShowWindow(context, false);
                 break;
             }
-            case ACTION_STOP: {
+            case STOP: {
                 GazeView.dismiss(context);
                 SharedPrefHelper.setIsShowWindow(context, false);
                 cancelNotification(context);
-            }
                 break;
+            }
             default: {
                 break;
             }

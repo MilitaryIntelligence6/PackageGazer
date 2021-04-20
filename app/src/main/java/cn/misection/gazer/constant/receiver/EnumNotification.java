@@ -7,17 +7,17 @@ package cn.misection.gazer.constant.receiver;
  * @Description TODO
  * @CreateTime 2021年04月20日 00:22:00
  */
-public enum EnumNotificationId {
+public enum EnumNotification {
 
     /**
      * notification id;
      */
-    NOTIFICATION_ID(1),
+    ID(1),
     ;
 
     private final int value;
 
-    EnumNotificationId(int value) {
+    EnumNotification(int value) {
         this.value = value;
     }
 

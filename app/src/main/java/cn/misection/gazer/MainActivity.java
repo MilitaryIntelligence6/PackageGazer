@@ -16,7 +16,7 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.Toast;
 
-import cn.misection.gazer.constant.EnumStringPool;
+import cn.misection.gazer.constant.common.EnumStringPool;
 import cn.misection.gazer.dao.SharedPrefHelper;
 import cn.misection.gazer.service.GazeAccessibilityService;
 import cn.misection.gazer.service.GazeService;

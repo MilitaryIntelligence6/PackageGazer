@@ -27,7 +27,7 @@
         </activity>
 
         <activity
-            android:name="cn.misection.gazer.activity.AppShortcutsActivity"
+            android:name="cn.misection.gazer.activity.ShortcutsActivity"
             android:excludeFromRecents="true"
             android:exported="false"
             android:theme="@style/TransparentTheme"/>

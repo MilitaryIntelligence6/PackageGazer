@@ -5,7 +5,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.view.accessibility.AccessibilityEvent;
 
-import cn.misection.gazer.constant.EnumStringPool;
+import cn.misection.gazer.constant.common.EnumStringPool;
 import cn.misection.gazer.util.NotificationActionReceiver;
 import cn.misection.gazer.dao.SharedPrefHelper;
 import cn.misection.gazer.util.ToastUtil;

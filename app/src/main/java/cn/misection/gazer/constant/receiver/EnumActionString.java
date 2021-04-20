@@ -7,19 +7,19 @@ package cn.misection.gazer.constant.receiver;
  * @Description TODO
  * @CreateTime 2021年04月20日 00:30:00
  */
-public enum NotificationString {
+public enum EnumActionString {
 
     /**
      * string;
      */
-    EXTRA_NOTIFICATION_ACTION("command"),
+    EXTRA_NOTIFICATION("command"),
 
-    ACTION_NOTIFICATION_RECEIVER("cn.misection.gazer.ACTION_NOTIFICATION_RECEIVER"),
+    NOTIFICATION_RECEIVER("cn.misection.gazer.ACTION_NOTIFICATION_RECEIVER"),
     ;
 
     private final String value;
 
-    NotificationString(String value) {
+    EnumActionString(String value) {
         this.value = value;
     }
 

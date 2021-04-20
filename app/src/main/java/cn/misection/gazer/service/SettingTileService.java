@@ -12,7 +12,7 @@ import android.service.quicksettings.Tile;
 import android.service.quicksettings.TileService;
 
 import cn.misection.gazer.MainActivity;
-import cn.misection.gazer.constant.EnumStringPool;
+import cn.misection.gazer.constant.common.EnumStringPool;
 import cn.misection.gazer.util.NotificationActionReceiver;
 import cn.misection.gazer.dao.SharedPrefHelper;
 import cn.misection.gazer.util.ToastUtil;

@@ -12,19 +12,26 @@ public enum EnumActionCode {
     /**
      * 生命周期;
      */
-    ACTION_PAUSE,
+    PAUSE,
 
-    ACTION_RESUME,
+    RESUME,
 
-    ACTION_STOP,
+    STOP,
+
+    UNKNOWN,
     ;
 
     EnumActionCode() {
     }
 
+    public int value() {
+        return this.ordinal();
+    }
+
     public static EnumActionCode selectByOrdinal(int ordinal) {
-        if (ordinal < 0 || ordinal > values().length) {
-            throw new IndexOutOfBoundsException(String.format("index %d is out of bounds", ordinal));
+        if (ordinal < 0 || ordinal >= values().length - 1) {
+//            throw new IndexOutOfBoundsException(String.format("index %d is out of bounds", ordinal));
+            return UNKNOWN;
         }
         return values()[ordinal];
     }

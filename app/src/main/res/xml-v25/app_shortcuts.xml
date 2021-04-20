@@ -8,7 +8,7 @@
         android:shortcutShortLabel="@string/shortcut_action">
         <intent
             android:action="cn.misection.gazer.ACTION_TOGGLE_WINDOW"
-            android:targetClass="cn.misection.gazer.activity.AppShortcutsActivity"
+            android:targetClass="cn.misection.gazer.activity.ShortcutsActivity"
             android:targetPackage="cn.misection.gazer"/>
     </shortcut>
 </shortcuts>

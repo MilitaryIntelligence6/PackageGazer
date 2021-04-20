@@ -1,4 +1,4 @@
-package cn.misection.gazer.constant;
+package cn.misection.gazer.constant.dao;
 
 /**
  * @author Military Intelligence 6 root

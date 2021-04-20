@@ -9,19 +9,18 @@ import android.provider.Settings;
 import android.support.annotation.Nullable;
 
 import cn.misection.gazer.MainActivity;
-import cn.misection.gazer.constant.EnumStringPool;
+import cn.misection.gazer.constant.common.EnumStringPool;
 import cn.misection.gazer.util.NotificationActionReceiver;
 import cn.misection.gazer.dao.SharedPrefHelper;
 import cn.misection.gazer.service.GazeAccessibilityService;
 import cn.misection.gazer.util.ToastUtil;
 import cn.misection.gazer.view.GazeView;
 
-
 /**
  * @author Administrator
  */
 @TargetApi(Build.VERSION_CODES.N)
-public class AppShortcutsActivity extends Activity {
+public class ShortcutsActivity extends Activity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
