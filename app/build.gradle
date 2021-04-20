@@ -1,0 +1,41 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 25
+    defaultConfig {
+        applicationId "cn.misection.gazer"
+        minSdkVersion 9
+        targetSdkVersion 25
+        versionCode 12
+        versionName "1.4.1"
+    }
+
+    /**
+     * 自定义apk名;
+     */
+    android.applicationVariants.all {
+        variant ->
+            variant.outputs.all {
+                // 此处指定生成的apk文件名
+                outputFileName = "Gazer.apk"
+            }
+    }
+
+    /**
+     * 不在语法检查错误时停止打包;
+     */
+    lintOptions {
+        abortOnError false
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    implementation 'com.android.support:support-v4:25.4.0'
+}
