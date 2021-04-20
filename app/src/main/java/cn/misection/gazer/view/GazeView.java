@@ -21,8 +21,11 @@ import cn.misection.gazer.R;
  * @CreateTime 2021年04月19日 22:58:00
  */
 public class GazeView {
+
     private static WindowManager.LayoutParams sWindowParams;
+
     private static WindowManager sWindowManager;
+
     @SuppressLint("StaticFieldLeak")
     private static View sView;
 
@@ -47,6 +50,7 @@ public class GazeView {
             init(context);
         }
         TextView textView = (TextView) sView.findViewById(R.id.text);
+//        textView.setPaddingRelative();
         textView.setText(text);
         try {
             sWindowManager.addView(sView, sWindowParams);

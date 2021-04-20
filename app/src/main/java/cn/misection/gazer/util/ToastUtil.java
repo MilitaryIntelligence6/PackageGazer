@@ -12,7 +12,11 @@ import cn.misection.gazer.service.GazeService;
  * @Description TODO
  * @CreateTime 2021年04月20日 14:18:00
  */
-public class ToastUtil {
+public final class ToastUtil {
+
+    private ToastUtil() {
+
+    }
 
     public static void show(Context context, final String text) {
         Toast.makeText(

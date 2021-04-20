@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.view.accessibility.AccessibilityEvent;
 
 import cn.misection.gazer.constant.common.EnumStringPool;
-import cn.misection.gazer.util.NotificationActionReceiver;
+import cn.misection.gazer.receiver.NotificationActionReceiver;
 import cn.misection.gazer.dao.SharedPrefHelper;
 import cn.misection.gazer.util.ToastUtil;
 import cn.misection.gazer.view.GazeView;
@@ -15,6 +15,7 @@ import cn.misection.gazer.view.GazeView;
  * @author Administrator
  */
 public class GazeAccessibilityService extends AccessibilityService {
+
     private static GazeAccessibilityService sInstance;
 
     public static GazeAccessibilityService getInstance() {

@@ -28,11 +28,15 @@ import cn.misection.gazer.view.GazeView;
  * @author Administrator
  */
 public class GazeService extends Service {
-    private final int NOTIF_ID = 1;
+
     private Handler mHandler = new Handler();
+
     private ActivityManager mActivityManager;
+
     private String text = null;
+
     private Timer timer;
+
     private NotificationManager mNotiManager;
 
     @Override
@@ -53,7 +57,7 @@ public class GazeService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        // sc
+        // scheduledExecutorService最好;
         if (timer == null) {
             timer = new Timer();
             timer.scheduleAtFixedRate(new RefreshTask(), 0, 500);

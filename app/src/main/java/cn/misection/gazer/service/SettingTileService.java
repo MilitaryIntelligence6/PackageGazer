@@ -13,12 +13,15 @@ import android.service.quicksettings.TileService;
 
 import cn.misection.gazer.MainActivity;
 import cn.misection.gazer.constant.common.EnumStringPool;
-import cn.misection.gazer.util.NotificationActionReceiver;
+import cn.misection.gazer.receiver.NotificationActionReceiver;
 import cn.misection.gazer.dao.SharedPrefHelper;
 import cn.misection.gazer.util.ToastUtil;
 import cn.misection.gazer.view.GazeView;
 
 
+/**
+ * @author Administrator
+ */
 @TargetApi(Build.VERSION_CODES.N)
 public class SettingTileService extends TileService {
 

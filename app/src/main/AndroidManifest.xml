@@ -63,7 +63,7 @@
                 android:value="true"/>
         </service>
 
-        <receiver android:name="cn.misection.gazer.util.NotificationActionReceiver">
+        <receiver android:name="cn.misection.gazer.receiver.NotificationActionReceiver">
             <intent-filter>
                 <action android:name="cn.misection.gazer.ACTION_NOTIFICATION_RECEIVER"/>
             </intent-filter>

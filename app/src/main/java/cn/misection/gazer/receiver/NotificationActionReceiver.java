@@ -1,4 +1,4 @@
-package cn.misection.gazer.util;
+package cn.misection.gazer.receiver;
 
 import android.app.ActivityManager;
 import android.app.NotificationManager;
@@ -16,6 +16,7 @@ import cn.misection.gazer.constant.receiver.EnumActionCode;
 import cn.misection.gazer.constant.receiver.EnumActionString;
 import cn.misection.gazer.constant.receiver.EnumNotification;
 import cn.misection.gazer.dao.SharedPrefHelper;
+import cn.misection.gazer.util.ToastUtil;
 import cn.misection.gazer.view.GazeView;
 
 import java.util.List;
