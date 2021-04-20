@@ -12,6 +12,8 @@ public enum EnumStringPool {
     /**
      * 状态;
      */
+    EMPTY(""),
+
     EXTRA_FROM_QS_TILE("from_qs_tile"),
 
     ACTION_STATE_CHANGED("cn.misection.gazer.ACTION_STATE_CHANGED"),

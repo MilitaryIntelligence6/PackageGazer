@@ -21,8 +21,12 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import cn.misection.gazer.dao.SharedPrefHelper;
+import cn.misection.gazer.util.ToastUtil;
 import cn.misection.gazer.view.GazeView;
 
+/**
+ * @author Administrator
+ */
 public class GazeService extends Service {
     private final int NOTIF_ID = 1;
     private Handler mHandler = new Handler();
@@ -36,6 +40,10 @@ public class GazeService extends Service {
         super.onCreate();
         mActivityManager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
         mNotiManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+    }
+
+    public GazeService getInstance() {
+        return this;
     }
 
     @Override
@@ -75,19 +83,16 @@ public class GazeService extends Service {
         @Override
         public void run() {
             List<RunningTaskInfo> rtis = mActivityManager.getRunningTasks(1);
-            String act = rtis.get(0).topActivity.getPackageName() + "\n"
-                    + rtis.get(0).topActivity.getClassName();
-
+            String act = rtis.get(0).topActivity.getPackageName();
             if (!act.equals(text)) {
                 text = act;
                 if (SharedPrefHelper.isShowWindow(GazeService.this)) {
-
-                    mHandler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            GazeView.show(GazeService.this, text);
-                        }
-                    });
+                    // TODO 线程池;
+                    mHandler.post(() -> {
+                                GazeView.show(GazeService.this, text);
+                                ToastUtil.show(GazeService.this, text);
+                            }
+                    );
                 }
             }
         }

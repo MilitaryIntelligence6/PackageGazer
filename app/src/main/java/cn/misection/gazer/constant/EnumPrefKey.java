@@ -12,9 +12,9 @@ public enum EnumPrefKey {
     /**
      * shared preference 的key;
      */
-    SHOW_WINDOW("is_show_window"),
+    WINDOW_SHOWN("is_show_window"),
 
-    QS_TILE_ADDED("has_qs_tile_added"),
+    SETTING_TILE_ADDED("has_qs_tile_added"),
 
     NOTIFY_TOGGLE_ENABLED("is_noti_toggle_enabled"),
     ;

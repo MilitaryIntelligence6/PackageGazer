@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Current Activity</string>
+    <string name="app_name">Package Gazer</string>
 
-    <string name="shortcut_action">Toggle monitor</string>
+    <string name="shortcut_action">切换凝视者</string>
 
     <string name="log" translatable="false">Log</string>
     <string name="show_window">开启浮窗</string>

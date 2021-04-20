@@ -12,21 +12,23 @@ import android.service.quicksettings.Tile;
 import android.service.quicksettings.TileService;
 
 import cn.misection.gazer.MainActivity;
+import cn.misection.gazer.constant.EnumStringPool;
 import cn.misection.gazer.util.NotificationActionReceiver;
 import cn.misection.gazer.dao.SharedPrefHelper;
+import cn.misection.gazer.util.ToastUtil;
 import cn.misection.gazer.view.GazeView;
 
-/**
- * Created by Wen on 5/3/16.
- */
+
 @TargetApi(Build.VERSION_CODES.N)
 public class SettingTileService extends TileService {
-    public static final String ACTION_UPDATE_TITLE = "cn.misection.gazer.ACTION.UPDATE_TITLE";
+
     private UpdateTileReceiver mReceiver;
 
     public static void updateTile(Context context) {
         TileService.requestListeningState(context.getApplicationContext(), new ComponentName(context, SettingTileService.class));
-        context.sendBroadcast(new Intent(SettingTileService.ACTION_UPDATE_TITLE));
+        context.sendBroadcast(new Intent(
+                EnumStringPool.ACTION_UPDATE_TITLE.value()
+        ));
     }
 
     @Override
@@ -38,19 +40,25 @@ public class SettingTileService extends TileService {
     @Override
     public void onTileAdded() {
         SharedPrefHelper.putSettingTileAdded(this, true);
-        sendBroadcast(new Intent(MainActivity.ACTION_STATE_CHANGED));
+        sendBroadcast(new Intent(
+                EnumStringPool.ACTION_STATE_CHANGED.value()
+        ));
     }
 
     @Override
     public void onTileRemoved() {
         super.onTileRemoved();
         SharedPrefHelper.putSettingTileAdded(this, false);
-        sendBroadcast(new Intent(MainActivity.ACTION_STATE_CHANGED));
+        sendBroadcast(new Intent(
+                EnumStringPool.ACTION_STATE_CHANGED.value()
+        ));
     }
 
     @Override
     public void onStartListening() {
-        registerReceiver(mReceiver, new IntentFilter(ACTION_UPDATE_TITLE));
+        registerReceiver(mReceiver, new IntentFilter(
+                EnumStringPool.ACTION_UPDATE_TITLE.value()
+        ));
         super.onStartListening();
         updateTile();
     }
@@ -65,18 +73,23 @@ public class SettingTileService extends TileService {
     public void onClick() {
         if (GazeAccessibilityService.getInstance() == null || !Settings.canDrawOverlays(this)) {
             Intent intent = new Intent(this, MainActivity.class);
-            intent.putExtra(MainActivity.EXTRA_FROM_QS_TILE, true);
+            intent.putExtra(
+                    EnumStringPool.EXTRA_FROM_QS_TILE.value(),
+                    true);
             startActivityAndCollapse(intent);
         } else {
             SharedPrefHelper.setIsShowWindow(this, !SharedPrefHelper.isShowWindow(this));
             if (SharedPrefHelper.isShowWindow(this)) {
-                GazeView.show(this, null);
+                GazeView.show(this, EnumStringPool.EMPTY.value());
+                ToastUtil.show(this, EnumStringPool.EMPTY.value());
                 NotificationActionReceiver.showNotification(this, false);
             } else {
                 GazeView.dismiss(this);
                 NotificationActionReceiver.showNotification(this, true);
             }
-            sendBroadcast(new Intent(MainActivity.ACTION_STATE_CHANGED));
+            sendBroadcast(new Intent(
+                    EnumStringPool.ACTION_STATE_CHANGED.value()
+            ));
         }
     }
 

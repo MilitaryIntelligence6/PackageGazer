@@ -5,12 +5,14 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.view.accessibility.AccessibilityEvent;
 
+import cn.misection.gazer.constant.EnumStringPool;
 import cn.misection.gazer.util.NotificationActionReceiver;
 import cn.misection.gazer.dao.SharedPrefHelper;
+import cn.misection.gazer.util.ToastUtil;
 import cn.misection.gazer.view.GazeView;
 
 /**
- * Created by Wen on 1/14/15.
+ * @author Administrator
  */
 public class GazeAccessibilityService extends AccessibilityService {
     private static GazeAccessibilityService sInstance;
@@ -24,7 +26,8 @@ public class GazeAccessibilityService extends AccessibilityService {
     public void onAccessibilityEvent(AccessibilityEvent event) {
         if (event.getEventType() == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED) {
             if (SharedPrefHelper.isShowWindow(this)) {
-                GazeView.show(this, event.getPackageName() + "\n" + event.getClassName());
+                GazeView.show(this, String.valueOf(event.getPackageName()));
+                ToastUtil.show(this, String.valueOf(event.getPackageName()));
             }
         }
     }
@@ -39,7 +42,9 @@ public class GazeAccessibilityService extends AccessibilityService {
         if (SharedPrefHelper.isShowWindow(this)) {
             NotificationActionReceiver.showNotification(this, false);
         }
-        sendBroadcast(new Intent(SettingTileService.ACTION_UPDATE_TITLE));
+        sendBroadcast(new Intent(
+                EnumStringPool.ACTION_UPDATE_TITLE.value()
+        ));
         super.onServiceConnected();
     }
 
@@ -48,7 +53,9 @@ public class GazeAccessibilityService extends AccessibilityService {
         sInstance = null;
         GazeView.dismiss(this);
         NotificationActionReceiver.cancelNotification(this);
-        sendBroadcast(new Intent(SettingTileService.ACTION_UPDATE_TITLE));
+        sendBroadcast(new Intent(
+                EnumStringPool.ACTION_UPDATE_TITLE.value()
+        ));
         return super.onUnbind(intent);
     }
 }

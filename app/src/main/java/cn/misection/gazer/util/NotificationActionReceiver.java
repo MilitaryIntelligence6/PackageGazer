@@ -11,15 +11,14 @@ import android.support.v4.app.NotificationCompat;
 
 import cn.misection.gazer.MainActivity;
 import cn.misection.gazer.R;
+import cn.misection.gazer.constant.EnumStringPool;
 import cn.misection.gazer.dao.SharedPrefHelper;
 import cn.misection.gazer.service.SettingTileService;
 import cn.misection.gazer.view.GazeView;
 
 import java.util.List;
 
-/**
- * Created by Wen on 4/18/15.
- */
+
 public class NotificationActionReceiver extends BroadcastReceiver {
     public static final int NOTIFICATION_ID = 1;
     public static final String ACTION_NOTIFICATION_RECEIVER = "cn.misection.gazer.ACTION_NOTIFICATION_RECEIVER";
@@ -84,8 +83,10 @@ public class NotificationActionReceiver extends BroadcastReceiver {
                     List<ActivityManager.RunningTaskInfo> rtis = am.getRunningTasks(1);
                     String act = rtis.get(0).topActivity.getPackageName();
                     GazeView.show(context, act);
+                    ToastUtil.show(context, act);
                 } else {
-                    GazeView.show(context, null);
+                    GazeView.show(context, EnumStringPool.EMPTY.value());
+                    ToastUtil.show(context, EnumStringPool.EMPTY.value());
                 }
                 break;
             }
@@ -105,6 +106,8 @@ public class NotificationActionReceiver extends BroadcastReceiver {
                 break;
             }
         }
-        context.sendBroadcast(new Intent(SettingTileService.ACTION_UPDATE_TITLE));
+        context.sendBroadcast(new Intent(
+                EnumStringPool.ACTION_UPDATE_TITLE.value()
+        ));
     }
 }

@@ -12,20 +12,20 @@ public enum EnumActionCode {
     /**
      * 生命周期;
      */
-    ACTION_PAUSE(0),
+    ACTION_PAUSE,
 
-    ACTION_RESUME(1),
+    ACTION_RESUME,
 
-    ACTION_STOP(2),
+    ACTION_STOP,
     ;
 
-    private final int value;
-
-    EnumActionCode(int value) {
-        this.value = value;
+    EnumActionCode() {
     }
 
-    public int value() {
-        return value;
+    public static EnumActionCode selectByOrdinal(int ordinal) {
+        if (ordinal < 0 || ordinal > values().length) {
+            throw new IndexOutOfBoundsException(String.format("index %d is out of bounds", ordinal));
+        }
+        return values()[ordinal];
     }
 }

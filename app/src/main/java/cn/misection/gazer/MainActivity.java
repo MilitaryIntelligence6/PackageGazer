@@ -16,16 +16,20 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.Toast;
 
+import cn.misection.gazer.constant.EnumStringPool;
 import cn.misection.gazer.dao.SharedPrefHelper;
 import cn.misection.gazer.service.GazeAccessibilityService;
 import cn.misection.gazer.service.GazeService;
 import cn.misection.gazer.util.NotificationActionReceiver;
+import cn.misection.gazer.util.ToastUtil;
 import cn.misection.gazer.view.GazeView;
 
 public class MainActivity extends Activity implements OnCheckedChangeListener {
-    public static final String EXTRA_FROM_QS_TILE = "from_qs_tile";
-    public static final String ACTION_STATE_CHANGED = "cn.misection.gazer.ACTION_STATE_CHANGED";
-    CompoundButton mWindowSwitch, mNotificationSwitch;
+
+    private CompoundButton mWindowSwitch;
+
+    private CompoundButton mNotificationSwitch;
+
     private BroadcastReceiver mReceiver;
 
     @Override
@@ -45,20 +49,26 @@ public class MainActivity extends Activity implements OnCheckedChangeListener {
             mNotificationSwitch.setOnCheckedChangeListener(this);
         }
         if (getResources().getBoolean(R.bool.use_watching_service)) {
-            GazeView.show(this, "");
+            GazeView.show(this, EnumStringPool.EMPTY.value());
+            ToastUtil.show(this, EnumStringPool.EMPTY.value());
             startService(new Intent(this, GazeService.class));
         }
-        if (getIntent().getBooleanExtra(EXTRA_FROM_QS_TILE, false)) {
+        if (getIntent().getBooleanExtra(
+                EnumStringPool.EXTRA_FROM_QS_TILE.value(),
+                false)) {
             mWindowSwitch.setChecked(true);
         }
         mReceiver = new UpdateSwitchReceiver();
-        registerReceiver(mReceiver, new IntentFilter(ACTION_STATE_CHANGED));
+        registerReceiver(mReceiver, new IntentFilter(
+                EnumStringPool.ACTION_STATE_CHANGED.value()));
     }
 
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        if (getIntent().getBooleanExtra(EXTRA_FROM_QS_TILE, false)) {
+        if (getIntent().getBooleanExtra(
+                EnumStringPool.EXTRA_FROM_QS_TILE.value(),
+                false)) {
             mWindowSwitch.setChecked(true);
         }
     }
@@ -116,7 +126,7 @@ public class MainActivity extends Activity implements OnCheckedChangeListener {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION);
-                                        intent.setData(Uri.parse("package:" + getPackageName()));
+                                        intent.setData(Uri.parse(String.format("package:%s", getPackageName())));
                                         startActivity(intent);
                                         dialog.dismiss();
                                     }
@@ -177,7 +187,8 @@ public class MainActivity extends Activity implements OnCheckedChangeListener {
             if (!isChecked) {
                 GazeView.dismiss(this);
             } else {
-                GazeView.show(this, getPackageName() + "\n" + getClass().getName());
+                GazeView.show(this, getPackageName());
+                ToastUtil.show(this, this.getPackageName());
             }
         }
     }
