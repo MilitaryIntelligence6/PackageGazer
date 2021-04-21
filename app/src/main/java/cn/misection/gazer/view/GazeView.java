@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextView;
 
+import java.util.Objects;
+
 import cn.misection.gazer.service.QuickSettingTileService;
 import cn.misection.gazer.R;
 
@@ -22,54 +24,86 @@ import cn.misection.gazer.R;
  */
 public class GazeView {
 
-    private static WindowManager.LayoutParams sWindowParams;
+    private volatile static GazeView instance = null;
 
-    private static WindowManager sWindowManager;
+    private WindowManager.LayoutParams mWindowParams;
 
-    @SuppressLint("StaticFieldLeak")
-    private static View sView;
+    private WindowManager mWindowManager;
 
-    public static void init(final Context context) {
-        sWindowManager = (WindowManager) context
+    private View mView;
+
+    private Context mContext;
+
+    private GazeView(Context context) {
+        this.mContext = context;
+        init();
+    }
+
+    @SuppressLint("NewApi")
+    public static GazeView requireInstance(Context context) {
+        if (instance == null) {
+            synchronized (GazeView.class) {
+                if (instance == null) {
+                    instance = new GazeView(context);
+                }
+            }
+        }
+        // 空安全equals;
+        if (!Objects.equals(instance.mContext, context)) {
+            instance.mContext = context;
+            instance.init();
+        }
+        return instance;
+    }
+
+    public void init() {
+        mWindowManager = (WindowManager) mContext
                 .getApplicationContext()
                 .getSystemService(Context.WINDOW_SERVICE);
 
-        sWindowParams = new WindowManager.LayoutParams(
+        mWindowParams = new WindowManager.LayoutParams(
                 WindowManager.LayoutParams.WRAP_CONTENT,
                 WindowManager.LayoutParams.WRAP_CONTENT,
                 Build.VERSION.SDK_INT <= Build.VERSION_CODES.N ?
                         WindowManager.LayoutParams.TYPE_TOAST : WindowManager.LayoutParams.TYPE_PHONE, 0x18,
                 PixelFormat.TRANSLUCENT);
-        sWindowParams.gravity = Gravity.LEFT + Gravity.TOP;
-        sView = LayoutInflater.from(context).inflate(R.layout.window_tasks,
-                null);
+        mWindowParams.gravity = Gravity.LEFT + Gravity.TOP;
+        mView = LayoutInflater
+                .from(mContext)
+                .inflate(R.layout.window_tasks, null);
+    }
+
+    private void showText(final String text) {
+        TextView textView = (TextView) mView.findViewById(R.id.text);
+        textView.setText(text);
+        try {
+            mWindowManager.addView(mView, mWindowParams);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void dismissal(Context context) {
+        try {
+            mWindowManager.removeView(mView);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void updateTile() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            QuickSettingTileService.updateTile(mContext);
+        }
     }
 
     public static void show(Context context, final String text) {
-        if (sWindowManager == null) {
-            init(context);
-        }
-        TextView textView = (TextView) sView.findViewById(R.id.text);
-//        textView.setPaddingRelative();
-        textView.setText(text);
-        try {
-            sWindowManager.addView(sView, sWindowParams);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            QuickSettingTileService.updateTile(context);
-        }
+        requireInstance(context).showText(text);
+        instance.updateTile();
     }
 
     public static void dismiss(Context context) {
-        try {
-            sWindowManager.removeView(sView);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            QuickSettingTileService.updateTile(context);
-        }
+        requireInstance(context).dismissal(context);
+        instance.updateTile();
     }
 }
