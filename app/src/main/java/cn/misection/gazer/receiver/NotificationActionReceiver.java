@@ -12,7 +12,7 @@ import android.support.v4.app.NotificationCompat;
 
 import cn.misection.gazer.MainActivity;
 import cn.misection.gazer.R;
-import cn.misection.gazer.constant.common.EnumStringPool;
+import cn.misection.gazer.constant.common.EnumString;
 import cn.misection.gazer.constant.receiver.EnumActionCode;
 import cn.misection.gazer.constant.receiver.EnumActionString;
 import cn.misection.gazer.constant.receiver.EnumNotification;
@@ -59,8 +59,8 @@ public class NotificationActionReceiver extends BroadcastReceiver {
                 getPendingIntent(context, EnumActionCode.STOP.value()))
                 .setContentIntent(pIntent);
 
-        NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        nm.notify(
+        NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        manager.notify(
                 EnumNotification.ID.value(),
                 builder.build());
     }
@@ -75,8 +75,9 @@ public class NotificationActionReceiver extends BroadcastReceiver {
     }
 
     public static void cancelNotification(Context context) {
-        NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        nm.cancel(
+        NotificationManager manager = (NotificationManager)
+                context.getSystemService(Context.NOTIFICATION_SERVICE);
+        manager.cancel(
                 EnumNotification.ID.value()
         );
     }
@@ -103,7 +104,7 @@ public class NotificationActionReceiver extends BroadcastReceiver {
                     AppSystem.out.println(context,
                             this.getClass().getName());
                 } else {
-                    AppSystem.out.println(context, EnumStringPool.EMPTY.value());
+                    AppSystem.out.println(context, EnumString.EMPTY.value());
                 }
                 break;
             }
@@ -124,7 +125,7 @@ public class NotificationActionReceiver extends BroadcastReceiver {
             }
         }
         context.sendBroadcast(new Intent(
-                EnumStringPool.ACTION_UPDATE_TITLE.value()
+                EnumString.ACTION_UPDATE_TITLE.value()
         ));
     }
 }

@@ -16,7 +16,7 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.Toast;
 
-import cn.misection.gazer.constant.common.EnumStringPool;
+import cn.misection.gazer.constant.common.EnumString;
 import cn.misection.gazer.dao.SharedPrefHelper;
 import cn.misection.gazer.service.GazeAccessibilityService;
 import cn.misection.gazer.service.GazeService;
@@ -49,24 +49,24 @@ public class MainActivity extends Activity implements OnCheckedChangeListener {
             mNotificationSwitch.setOnCheckedChangeListener(this);
         }
         if (getResources().getBoolean(R.bool.use_watching_service)) {
-            AppSystem.out.println(this, EnumStringPool.EMPTY.value());
+            AppSystem.out.println(this, EnumString.EMPTY.value());
             startService(new Intent(this, GazeService.class));
         }
         if (getIntent().getBooleanExtra(
-                EnumStringPool.EXTRA_FROM_QS_TILE.value(),
+                EnumString.EXTRA_FROM_QS_TILE.value(),
                 false)) {
             mWindowSwitch.setChecked(true);
         }
         mReceiver = new UpdateSwitchReceiver();
         registerReceiver(mReceiver, new IntentFilter(
-                EnumStringPool.ACTION_STATE_CHANGED.value()));
+                EnumString.ACTION_STATE_CHANGED.value()));
     }
 
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         if (getIntent().getBooleanExtra(
-                EnumStringPool.EXTRA_FROM_QS_TILE.value(),
+                EnumString.EXTRA_FROM_QS_TILE.value(),
                 false)) {
             mWindowSwitch.setChecked(true);
         }

@@ -5,7 +5,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.view.accessibility.AccessibilityEvent;
 
-import cn.misection.gazer.constant.common.EnumStringPool;
+import cn.misection.gazer.constant.common.EnumString;
 import cn.misection.gazer.receiver.NotificationActionReceiver;
 import cn.misection.gazer.dao.SharedPrefHelper;
 import cn.misection.gazer.system.AppSystem;
@@ -46,7 +46,7 @@ public class GazeAccessibilityService extends AccessibilityService {
             NotificationActionReceiver.showNotification(this, false);
         }
         sendBroadcast(new Intent(
-                EnumStringPool.ACTION_UPDATE_TITLE.value()
+                EnumString.ACTION_UPDATE_TITLE.value()
         ));
         super.onServiceConnected();
     }
@@ -57,7 +57,7 @@ public class GazeAccessibilityService extends AccessibilityService {
         GazeView.dismiss(this);
         NotificationActionReceiver.cancelNotification(this);
         sendBroadcast(new Intent(
-                EnumStringPool.ACTION_UPDATE_TITLE.value()
+                EnumString.ACTION_UPDATE_TITLE.value()
         ));
         return super.onUnbind(intent);
     }

@@ -12,7 +12,7 @@ import android.service.quicksettings.Tile;
 import android.service.quicksettings.TileService;
 
 import cn.misection.gazer.MainActivity;
-import cn.misection.gazer.constant.common.EnumStringPool;
+import cn.misection.gazer.constant.common.EnumString;
 import cn.misection.gazer.receiver.NotificationActionReceiver;
 import cn.misection.gazer.dao.SharedPrefHelper;
 import cn.misection.gazer.system.AppSystem;
@@ -35,7 +35,7 @@ public class QuickSettingTileService extends TileService {
                         context,
                         QuickSettingTileService.class));
         context.sendBroadcast(new Intent(
-                EnumStringPool.ACTION_UPDATE_TITLE.value()
+                EnumString.ACTION_UPDATE_TITLE.value()
         ));
     }
 
@@ -49,7 +49,7 @@ public class QuickSettingTileService extends TileService {
     public void onTileAdded() {
         SharedPrefHelper.putSettingTileAdded(this, true);
         sendBroadcast(new Intent(
-                EnumStringPool.ACTION_STATE_CHANGED.value()
+                EnumString.ACTION_STATE_CHANGED.value()
         ));
     }
 
@@ -58,14 +58,14 @@ public class QuickSettingTileService extends TileService {
         super.onTileRemoved();
         SharedPrefHelper.putSettingTileAdded(this, false);
         sendBroadcast(new Intent(
-                EnumStringPool.ACTION_STATE_CHANGED.value()
+                EnumString.ACTION_STATE_CHANGED.value()
         ));
     }
 
     @Override
     public void onStartListening() {
         registerReceiver(mReceiver, new IntentFilter(
-                EnumStringPool.ACTION_UPDATE_TITLE.value()
+                EnumString.ACTION_UPDATE_TITLE.value()
         ));
         super.onStartListening();
         updateTile();
@@ -82,20 +82,20 @@ public class QuickSettingTileService extends TileService {
         if (GazeAccessibilityService.requireInstance() == null || !Settings.canDrawOverlays(this)) {
             Intent intent = new Intent(this, MainActivity.class);
             intent.putExtra(
-                    EnumStringPool.EXTRA_FROM_QS_TILE.value(),
+                    EnumString.EXTRA_FROM_QS_TILE.value(),
                     true);
             startActivityAndCollapse(intent);
         } else {
             SharedPrefHelper.putWindowShown(this, !SharedPrefHelper.hasWindowShown(this));
             if (SharedPrefHelper.hasWindowShown(this)) {
-                AppSystem.out.println(this, EnumStringPool.EMPTY.value());
+                AppSystem.out.println(this, EnumString.EMPTY.value());
                 NotificationActionReceiver.showNotification(this, false);
             } else {
                 GazeView.dismiss(this);
                 NotificationActionReceiver.showNotification(this, true);
             }
             sendBroadcast(new Intent(
-                    EnumStringPool.ACTION_STATE_CHANGED.value()
+                    EnumString.ACTION_STATE_CHANGED.value()
             ));
         }
     }

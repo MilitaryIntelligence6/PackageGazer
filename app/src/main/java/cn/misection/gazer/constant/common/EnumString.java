@@ -7,7 +7,7 @@ package cn.misection.gazer.constant.common;
  * @Description TODO
  * @CreateTime 2021年04月20日 00:03:00
  */
-public enum EnumStringPool {
+public enum EnumString {
 
     /**
      * 状态;
@@ -23,7 +23,7 @@ public enum EnumStringPool {
 
     private final String value;
 
-    EnumStringPool(String value) {
+    EnumString(String value) {
         this.value = value;
     }
 

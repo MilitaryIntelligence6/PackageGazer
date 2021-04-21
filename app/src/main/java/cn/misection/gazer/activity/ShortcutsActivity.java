@@ -9,7 +9,7 @@ import android.provider.Settings;
 import android.support.annotation.Nullable;
 
 import cn.misection.gazer.MainActivity;
-import cn.misection.gazer.constant.common.EnumStringPool;
+import cn.misection.gazer.constant.common.EnumString;
 import cn.misection.gazer.receiver.NotificationActionReceiver;
 import cn.misection.gazer.dao.SharedPrefHelper;
 import cn.misection.gazer.service.GazeAccessibilityService;
@@ -46,7 +46,7 @@ public class ShortcutsActivity extends Activity {
             NotificationActionReceiver.showNotification(this, false);
         }
         sendBroadcast(new Intent(
-                EnumStringPool.ACTION_STATE_CHANGED.value()));
+                EnumString.ACTION_STATE_CHANGED.value()));
         finish();
     }
 }
