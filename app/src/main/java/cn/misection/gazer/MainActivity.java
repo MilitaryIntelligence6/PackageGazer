@@ -22,7 +22,6 @@ import cn.misection.gazer.service.GazeAccessibilityService;
 import cn.misection.gazer.service.GazeService;
 import cn.misection.gazer.receiver.NotificationActionReceiver;
 import cn.misection.gazer.system.AppSystem;
-import cn.misection.gazer.util.ToastUtil;
 import cn.misection.gazer.view.GazeView;
 
 public class MainActivity extends Activity implements OnCheckedChangeListener {
@@ -84,15 +83,15 @@ public class MainActivity extends Activity implements OnCheckedChangeListener {
     @Override
     protected void onPause() {
         super.onPause();
-        if (SharedPrefHelper.isShowWindow(this) && !(getResources().getBoolean(R.bool.use_accessibility_service) && GazeAccessibilityService.getInstance() == null)) {
+        if (SharedPrefHelper.hasWindowShown(this) && !(getResources().getBoolean(R.bool.use_accessibility_service) && GazeAccessibilityService.requireInstance() == null)) {
             NotificationActionReceiver.showNotification(this, false);
         }
     }
 
     private void refreshWindowSwitch() {
-        mWindowSwitch.setChecked(SharedPrefHelper.isShowWindow(this));
+        mWindowSwitch.setChecked(SharedPrefHelper.hasWindowShown(this));
         if (getResources().getBoolean(R.bool.use_accessibility_service)) {
-            if (GazeAccessibilityService.getInstance() == null) {
+            if (GazeAccessibilityService.requireInstance() == null) {
                 mWindowSwitch.setChecked(false);
             }
         }
@@ -100,7 +99,7 @@ public class MainActivity extends Activity implements OnCheckedChangeListener {
 
     private void refreshNotificationSwitch() {
         if (mNotificationSwitch != null) {
-            mNotificationSwitch.setChecked(!SharedPrefHelper.isNotificationToggleEnabled(this));
+            mNotificationSwitch.setChecked(!SharedPrefHelper.hasNotificationToggleEnabled(this));
         }
     }
 
@@ -135,14 +134,14 @@ public class MainActivity extends Activity implements OnCheckedChangeListener {
                                 , new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
-                                        SharedPrefHelper.setIsShowWindow(MainActivity.this, false);
+                                        SharedPrefHelper.putWindowShown(MainActivity.this, false);
                                         refreshWindowSwitch();
                                     }
                                 })
                         .setOnCancelListener(new DialogInterface.OnCancelListener() {
                             @Override
                             public void onCancel(DialogInterface dialog) {
-                                SharedPrefHelper.setIsShowWindow(MainActivity.this, false);
+                                SharedPrefHelper.putWindowShown(MainActivity.this, false);
                                 refreshWindowSwitch();
                             }
                         })
@@ -150,14 +149,14 @@ public class MainActivity extends Activity implements OnCheckedChangeListener {
                         .show();
                 buttonView.setChecked(false);
                 return;
-            } else if (GazeAccessibilityService.getInstance() == null) {
+            } else if (GazeAccessibilityService.requireInstance() == null) {
                 new AlertDialog.Builder(this)
                         .setMessage(R.string.dialog_enable_accessibility_msg)
                         .setPositiveButton(R.string.dialog_enable_accessibility_positive_btn
                                 , new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
-                                        SharedPrefHelper.setIsShowWindow(MainActivity.this, true);
+                                        SharedPrefHelper.putWindowShown(MainActivity.this, true);
                                         Intent intent = new Intent();
                                         intent.setAction("android.settings.ACCESSIBILITY_SETTINGS");
                                         startActivity(intent);
@@ -178,12 +177,12 @@ public class MainActivity extends Activity implements OnCheckedChangeListener {
                         })
                         .create()
                         .show();
-                SharedPrefHelper.setIsShowWindow(this, true);
+                SharedPrefHelper.putWindowShown(this, true);
                 return;
             }
         }
         if (buttonView == mWindowSwitch) {
-            SharedPrefHelper.setIsShowWindow(this, isChecked);
+            SharedPrefHelper.putWindowShown(this, isChecked);
             if (!isChecked) {
                 GazeView.dismiss(this);
             } else {

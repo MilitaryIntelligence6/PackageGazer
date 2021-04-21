@@ -1,8 +1,8 @@
 package cn.misection.gazer.system;
 
 import cn.misection.gazer.thread.ThreadPool;
-import cn.misection.gazer.util.out.IOutStream;
-import cn.misection.gazer.util.out.UiOutStream;
+import cn.misection.gazer.util.outstream.IOutStream;
+import cn.misection.gazer.util.outstream.UiOutStream;
 
 /**
  * @author Military Intelligence 6 root

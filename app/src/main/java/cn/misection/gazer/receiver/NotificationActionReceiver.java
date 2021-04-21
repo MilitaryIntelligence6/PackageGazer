@@ -18,7 +18,6 @@ import cn.misection.gazer.constant.receiver.EnumActionString;
 import cn.misection.gazer.constant.receiver.EnumNotification;
 import cn.misection.gazer.dao.SharedPrefHelper;
 import cn.misection.gazer.system.AppSystem;
-import cn.misection.gazer.util.ToastUtil;
 import cn.misection.gazer.view.GazeView;
 
 import java.util.List;
@@ -26,11 +25,15 @@ import java.util.List;
 
 /**
  * @author Administrator
+ * 状态栏通知接收者;
+ * 状态栏磁贴;
  */
 public class NotificationActionReceiver extends BroadcastReceiver {
 
-    public static void showNotification(Context context, boolean isPaused) {
-        if (!SharedPrefHelper.isNotificationToggleEnabled(context)) {
+    public static void showNotification(
+            Context context,
+            boolean paused) {
+        if (!SharedPrefHelper.hasNotificationToggleEnabled(context)) {
             return;
         }
         PendingIntent pIntent = PendingIntent.getActivity(context, 0, new Intent(context, MainActivity.class), 0);
@@ -41,8 +44,8 @@ public class NotificationActionReceiver extends BroadcastReceiver {
                 .setContentText(context.getString(R.string.touch_to_open))
                 .setColor(0xFFe215e0)
                 .setVisibility(NotificationCompat.VISIBILITY_SECRET)
-                .setOngoing(!isPaused);
-        if (isPaused) {
+                .setOngoing(!paused);
+        if (paused) {
             builder.addAction(R.drawable.ic_noti_action_resume, context.getString(R.string.noti_action_resume),
                     getPendingIntent(context, EnumActionCode.RESUME.value()));
         } else {
@@ -78,6 +81,11 @@ public class NotificationActionReceiver extends BroadcastReceiver {
         );
     }
 
+    /**
+     * 监听消息中心的按钮;
+     * @param context
+     * @param intent
+     */
     @Override
     public void onReceive(Context context, Intent intent) {
         int command = intent.getIntExtra(
@@ -86,7 +94,7 @@ public class NotificationActionReceiver extends BroadcastReceiver {
         switch (EnumActionCode.selectByOrdinal(command)) {
             case RESUME: {
                 showNotification(context, false);
-                SharedPrefHelper.setIsShowWindow(context, true);
+                SharedPrefHelper.putWindowShown(context, true);
                 boolean lollipop = Build.VERSION.SDK_INT >= 21;
                 if (!lollipop) {
                     ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
@@ -102,12 +110,12 @@ public class NotificationActionReceiver extends BroadcastReceiver {
             case PAUSE: {
                 showNotification(context, true);
                 GazeView.dismiss(context);
-                SharedPrefHelper.setIsShowWindow(context, false);
+                SharedPrefHelper.putWindowShown(context, false);
                 break;
             }
             case STOP: {
                 GazeView.dismiss(context);
-                SharedPrefHelper.setIsShowWindow(context, false);
+                SharedPrefHelper.putWindowShown(context, false);
                 cancelNotification(context);
                 break;
             }

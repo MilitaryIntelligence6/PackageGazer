@@ -1,4 +1,4 @@
-package cn.misection.gazer.util.out;
+package cn.misection.gazer.util.outstream;
 
 import android.content.Context;
 

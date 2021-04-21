@@ -22,8 +22,6 @@ import java.util.TimerTask;
 
 import cn.misection.gazer.dao.SharedPrefHelper;
 import cn.misection.gazer.system.AppSystem;
-import cn.misection.gazer.util.ToastUtil;
-import cn.misection.gazer.view.GazeView;
 
 /**
  * @author Administrator
@@ -47,7 +45,7 @@ public class GazeService extends Service {
         mNotiManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
     }
 
-    public GazeService getInstance() {
+    public GazeService requireInstance() {
         return this;
     }
 
@@ -88,11 +86,11 @@ public class GazeService extends Service {
     class RefreshTask extends TimerTask {
         @Override
         public void run() {
-            List<RunningTaskInfo> rtis = mActivityManager.getRunningTasks(1);
-            String act = rtis.get(0).topActivity.getPackageName();
+            List<RunningTaskInfo> runningTasks = mActivityManager.getRunningTasks(1);
+            String act = runningTasks.get(0).topActivity.getPackageName();
             if (!act.equals(text)) {
                 text = act;
-                if (SharedPrefHelper.isShowWindow(GazeService.this)) {
+                if (SharedPrefHelper.hasWindowShown(GazeService.this)) {
                     // TODO 线程池;
                     mHandler.post(() ->
                             AppSystem.out.println(GazeService.this, text)

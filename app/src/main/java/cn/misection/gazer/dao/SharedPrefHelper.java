@@ -10,14 +10,15 @@ import cn.misection.gazer.constant.dao.EnumPrefKey;
  * @author Administrator
  */
 public class SharedPrefHelper {
-    public static boolean isShowWindow(Context context) {
+
+    public static boolean hasWindowShown(Context context) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
         return sp.getBoolean(
                 EnumPrefKey.WINDOW_SHOWN.value(),
                 true);
     }
 
-    public static void setIsShowWindow(Context context, boolean shown) {
+    public static void putWindowShown(Context context, boolean shown) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
         sp.edit()
                 .putBoolean(
@@ -41,7 +42,7 @@ public class SharedPrefHelper {
                 .apply();
     }
 
-    public static boolean isNotificationToggleEnabled(Context context) {
+    public static boolean hasNotificationToggleEnabled(Context context) {
         if (!hasSettingTileAdded(context)) {
             return true;
         }

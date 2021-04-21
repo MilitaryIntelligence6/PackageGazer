@@ -16,20 +16,24 @@ import cn.misection.gazer.constant.common.EnumStringPool;
 import cn.misection.gazer.receiver.NotificationActionReceiver;
 import cn.misection.gazer.dao.SharedPrefHelper;
 import cn.misection.gazer.system.AppSystem;
-import cn.misection.gazer.util.ToastUtil;
 import cn.misection.gazer.view.GazeView;
 
 
 /**
  * @author Administrator
+ * 下拉框磁贴;
  */
 @TargetApi(Build.VERSION_CODES.N)
-public class SettingTileService extends TileService {
+public class QuickSettingTileService extends TileService {
 
     private UpdateTileReceiver mReceiver;
 
     public static void updateTile(Context context) {
-        TileService.requestListeningState(context.getApplicationContext(), new ComponentName(context, SettingTileService.class));
+        TileService.requestListeningState(
+                context.getApplicationContext(),
+                new ComponentName(
+                        context,
+                        QuickSettingTileService.class));
         context.sendBroadcast(new Intent(
                 EnumStringPool.ACTION_UPDATE_TITLE.value()
         ));
@@ -75,15 +79,15 @@ public class SettingTileService extends TileService {
 
     @Override
     public void onClick() {
-        if (GazeAccessibilityService.getInstance() == null || !Settings.canDrawOverlays(this)) {
+        if (GazeAccessibilityService.requireInstance() == null || !Settings.canDrawOverlays(this)) {
             Intent intent = new Intent(this, MainActivity.class);
             intent.putExtra(
                     EnumStringPool.EXTRA_FROM_QS_TILE.value(),
                     true);
             startActivityAndCollapse(intent);
         } else {
-            SharedPrefHelper.setIsShowWindow(this, !SharedPrefHelper.isShowWindow(this));
-            if (SharedPrefHelper.isShowWindow(this)) {
+            SharedPrefHelper.putWindowShown(this, !SharedPrefHelper.hasWindowShown(this));
+            if (SharedPrefHelper.hasWindowShown(this)) {
                 AppSystem.out.println(this, EnumStringPool.EMPTY.value());
                 NotificationActionReceiver.showNotification(this, false);
             } else {
@@ -97,10 +101,10 @@ public class SettingTileService extends TileService {
     }
 
     private void updateTile() {
-        if (GazeAccessibilityService.getInstance() == null) {
+        if (GazeAccessibilityService.requireInstance() == null) {
             getQsTile().setState(Tile.STATE_INACTIVE);
         } else {
-            getQsTile().setState(SharedPrefHelper.isShowWindow(this) ? Tile.STATE_ACTIVE : Tile.STATE_INACTIVE);
+            getQsTile().setState(SharedPrefHelper.hasWindowShown(this) ? Tile.STATE_ACTIVE : Tile.STATE_INACTIVE);
         }
         getQsTile().updateTile();
     }

@@ -14,7 +14,6 @@ import cn.misection.gazer.receiver.NotificationActionReceiver;
 import cn.misection.gazer.dao.SharedPrefHelper;
 import cn.misection.gazer.service.GazeAccessibilityService;
 import cn.misection.gazer.system.AppSystem;
-import cn.misection.gazer.util.ToastUtil;
 import cn.misection.gazer.view.GazeView;
 
 /**
@@ -27,16 +26,17 @@ public class ShortcutsActivity extends Activity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (GazeAccessibilityService.getInstance() == null || !Settings.canDrawOverlays(this)) {
-            SharedPrefHelper.setIsShowWindow(this, true);
+        if (GazeAccessibilityService.requireInstance() == null
+                || !Settings.canDrawOverlays(this)) {
+            SharedPrefHelper.putWindowShown(this, true);
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
             finish();
             return;
         }
 
-        boolean shown = !SharedPrefHelper.isShowWindow(this);
-        SharedPrefHelper.setIsShowWindow(this, shown);
+        boolean shown = !SharedPrefHelper.hasWindowShown(this);
+        SharedPrefHelper.putWindowShown(this, shown);
         if (!shown) {
             GazeView.dismiss(this);
             NotificationActionReceiver.showNotification(this, true);

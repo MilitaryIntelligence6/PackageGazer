@@ -10,7 +10,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextView;
 
-import cn.misection.gazer.service.SettingTileService;
+import cn.misection.gazer.service.QuickSettingTileService;
 import cn.misection.gazer.R;
 
 /**
@@ -58,7 +58,7 @@ public class GazeView {
             e.printStackTrace();
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            SettingTileService.updateTile(context);
+            QuickSettingTileService.updateTile(context);
         }
     }
 
@@ -69,7 +69,7 @@ public class GazeView {
             e.printStackTrace();
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            SettingTileService.updateTile(context);
+            QuickSettingTileService.updateTile(context);
         }
     }
 }

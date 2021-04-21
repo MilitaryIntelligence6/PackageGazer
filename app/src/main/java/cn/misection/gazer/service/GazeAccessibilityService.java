@@ -9,17 +9,17 @@ import cn.misection.gazer.constant.common.EnumStringPool;
 import cn.misection.gazer.receiver.NotificationActionReceiver;
 import cn.misection.gazer.dao.SharedPrefHelper;
 import cn.misection.gazer.system.AppSystem;
-import cn.misection.gazer.util.ToastUtil;
 import cn.misection.gazer.view.GazeView;
 
 /**
  * @author Administrator
+ * accesibility 服务;
  */
 public class GazeAccessibilityService extends AccessibilityService {
 
     private static GazeAccessibilityService sInstance;
 
-    public static GazeAccessibilityService getInstance() {
+    public static GazeAccessibilityService requireInstance() {
         return sInstance;
     }
 
@@ -27,8 +27,10 @@ public class GazeAccessibilityService extends AccessibilityService {
     @Override
     public void onAccessibilityEvent(AccessibilityEvent event) {
         if (event.getEventType() == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED) {
-            if (SharedPrefHelper.isShowWindow(this)) {
-                AppSystem.out.println(this, String.valueOf(event.getClassName()));
+            if (SharedPrefHelper.hasWindowShown(this)) {
+                AppSystem.out.println(
+                        this,
+                        String.valueOf(event.getClassName()));
             }
         }
     }
@@ -40,7 +42,7 @@ public class GazeAccessibilityService extends AccessibilityService {
     @Override
     protected void onServiceConnected() {
         sInstance = this;
-        if (SharedPrefHelper.isShowWindow(this)) {
+        if (SharedPrefHelper.hasWindowShown(this)) {
             NotificationActionReceiver.showNotification(this, false);
         }
         sendBroadcast(new Intent(
