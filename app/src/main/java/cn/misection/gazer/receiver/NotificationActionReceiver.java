@@ -4,6 +4,7 @@ import android.app.ActivityManager;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
@@ -16,6 +17,7 @@ import cn.misection.gazer.constant.receiver.EnumActionCode;
 import cn.misection.gazer.constant.receiver.EnumActionString;
 import cn.misection.gazer.constant.receiver.EnumNotification;
 import cn.misection.gazer.dao.SharedPrefHelper;
+import cn.misection.gazer.system.AppSystem;
 import cn.misection.gazer.util.ToastUtil;
 import cn.misection.gazer.view.GazeView;
 
@@ -88,13 +90,12 @@ public class NotificationActionReceiver extends BroadcastReceiver {
                 boolean lollipop = Build.VERSION.SDK_INT >= 21;
                 if (!lollipop) {
                     ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
-                    List<ActivityManager.RunningTaskInfo> rtis = am.getRunningTasks(1);
-                    String act = rtis.get(0).topActivity.getPackageName();
-                    GazeView.show(context, act);
-                    ToastUtil.show(context, act);
+                    List<ActivityManager.RunningTaskInfo> runningTasks = am.getRunningTasks(1);
+                    ComponentName topActivity = runningTasks.get(0).topActivity;
+                    AppSystem.out.println(context,
+                            this.getClass().getName());
                 } else {
-                    GazeView.show(context, EnumStringPool.EMPTY.value());
-                    ToastUtil.show(context, EnumStringPool.EMPTY.value());
+                    AppSystem.out.println(context, EnumStringPool.EMPTY.value());
                 }
                 break;
             }

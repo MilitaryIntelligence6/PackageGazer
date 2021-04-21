@@ -21,6 +21,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import cn.misection.gazer.dao.SharedPrefHelper;
+import cn.misection.gazer.system.AppSystem;
 import cn.misection.gazer.util.ToastUtil;
 import cn.misection.gazer.view.GazeView;
 
@@ -93,10 +94,8 @@ public class GazeService extends Service {
                 text = act;
                 if (SharedPrefHelper.isShowWindow(GazeService.this)) {
                     // TODO 线程池;
-                    mHandler.post(() -> {
-                                GazeView.show(GazeService.this, text);
-                                ToastUtil.show(GazeService.this, text);
-                            }
+                    mHandler.post(() ->
+                            AppSystem.out.println(GazeService.this, text)
                     );
                 }
             }

@@ -21,6 +21,7 @@ import cn.misection.gazer.dao.SharedPrefHelper;
 import cn.misection.gazer.service.GazeAccessibilityService;
 import cn.misection.gazer.service.GazeService;
 import cn.misection.gazer.receiver.NotificationActionReceiver;
+import cn.misection.gazer.system.AppSystem;
 import cn.misection.gazer.util.ToastUtil;
 import cn.misection.gazer.view.GazeView;
 
@@ -49,8 +50,7 @@ public class MainActivity extends Activity implements OnCheckedChangeListener {
             mNotificationSwitch.setOnCheckedChangeListener(this);
         }
         if (getResources().getBoolean(R.bool.use_watching_service)) {
-            GazeView.show(this, EnumStringPool.EMPTY.value());
-            ToastUtil.show(this, EnumStringPool.EMPTY.value());
+            AppSystem.out.println(this, EnumStringPool.EMPTY.value());
             startService(new Intent(this, GazeService.class));
         }
         if (getIntent().getBooleanExtra(
@@ -187,8 +187,8 @@ public class MainActivity extends Activity implements OnCheckedChangeListener {
             if (!isChecked) {
                 GazeView.dismiss(this);
             } else {
-                GazeView.show(this, getPackageName());
-                ToastUtil.show(this, this.getPackageName());
+                AppSystem.out.println(this,
+                        this.getClass().getName());
             }
         }
     }

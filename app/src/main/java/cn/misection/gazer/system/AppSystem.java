@@ -1,7 +1,8 @@
 package cn.misection.gazer.system;
 
 import cn.misection.gazer.thread.ThreadPool;
-import cn.misection.gazer.view.GazeView;
+import cn.misection.gazer.util.out.IOutStream;
+import cn.misection.gazer.util.out.UiOutStream;
 
 /**
  * @author Military Intelligence 6 root
@@ -12,7 +13,7 @@ import cn.misection.gazer.view.GazeView;
  */
 public class AppSystem {
 
-    public static final GazeView out = null;
+    public static final IOutStream out = UiOutStream.getInstance();
 
     public static final ThreadPool pool = ThreadPool.getInstance();
 

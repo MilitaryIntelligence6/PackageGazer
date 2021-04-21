@@ -8,6 +8,7 @@ import android.view.accessibility.AccessibilityEvent;
 import cn.misection.gazer.constant.common.EnumStringPool;
 import cn.misection.gazer.receiver.NotificationActionReceiver;
 import cn.misection.gazer.dao.SharedPrefHelper;
+import cn.misection.gazer.system.AppSystem;
 import cn.misection.gazer.util.ToastUtil;
 import cn.misection.gazer.view.GazeView;
 
@@ -27,8 +28,7 @@ public class GazeAccessibilityService extends AccessibilityService {
     public void onAccessibilityEvent(AccessibilityEvent event) {
         if (event.getEventType() == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED) {
             if (SharedPrefHelper.isShowWindow(this)) {
-                GazeView.show(this, String.valueOf(event.getPackageName()));
-                ToastUtil.show(this, String.valueOf(event.getPackageName()));
+                AppSystem.out.println(this, String.valueOf(event.getClassName()));
             }
         }
     }

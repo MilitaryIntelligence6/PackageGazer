@@ -15,6 +15,7 @@ import cn.misection.gazer.MainActivity;
 import cn.misection.gazer.constant.common.EnumStringPool;
 import cn.misection.gazer.receiver.NotificationActionReceiver;
 import cn.misection.gazer.dao.SharedPrefHelper;
+import cn.misection.gazer.system.AppSystem;
 import cn.misection.gazer.util.ToastUtil;
 import cn.misection.gazer.view.GazeView;
 
@@ -83,8 +84,7 @@ public class SettingTileService extends TileService {
         } else {
             SharedPrefHelper.setIsShowWindow(this, !SharedPrefHelper.isShowWindow(this));
             if (SharedPrefHelper.isShowWindow(this)) {
-                GazeView.show(this, EnumStringPool.EMPTY.value());
-                ToastUtil.show(this, EnumStringPool.EMPTY.value());
+                AppSystem.out.println(this, EnumStringPool.EMPTY.value());
                 NotificationActionReceiver.showNotification(this, false);
             } else {
                 GazeView.dismiss(this);

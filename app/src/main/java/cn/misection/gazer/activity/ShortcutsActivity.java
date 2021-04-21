@@ -13,6 +13,7 @@ import cn.misection.gazer.constant.common.EnumStringPool;
 import cn.misection.gazer.receiver.NotificationActionReceiver;
 import cn.misection.gazer.dao.SharedPrefHelper;
 import cn.misection.gazer.service.GazeAccessibilityService;
+import cn.misection.gazer.system.AppSystem;
 import cn.misection.gazer.util.ToastUtil;
 import cn.misection.gazer.view.GazeView;
 
@@ -40,8 +41,8 @@ public class ShortcutsActivity extends Activity {
             GazeView.dismiss(this);
             NotificationActionReceiver.showNotification(this, true);
         } else {
-            GazeView.show(this, getPackageName());
-            ToastUtil.show(this, this.getPackageName());
+            AppSystem.out.println(this,
+                    this.getClass().getName());
             NotificationActionReceiver.showNotification(this, false);
         }
         sendBroadcast(new Intent(
