@@ -102,7 +102,7 @@ public class GazeView {
         }
     }
 
-    private void dismissal(Context context) {
+    private void dismissView() {
         try {
             mWindowManager.removeView(mView);
         } catch (Exception e) {
@@ -122,7 +122,7 @@ public class GazeView {
     }
 
     public static void dismiss(Context context) {
-        requireInstance(context).dismissal(context);
+        requireInstance(context).dismissView();
         instance.updateTile();
     }
 }
