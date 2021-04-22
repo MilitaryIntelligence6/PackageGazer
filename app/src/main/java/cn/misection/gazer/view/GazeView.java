@@ -20,6 +20,7 @@ import cn.misection.gazer.R;
  * @version 1.0.0
  * @ClassName GazeView
  * @Description TODO
+ * @TODO 会有重影问题
  * @CreateTime 2021年04月19日 22:58:00
  */
 public class GazeView {
@@ -51,7 +52,7 @@ public class GazeView {
         // 空安全equals;
         if (!Objects.equals(instance.mContext, context)) {
             instance.mContext = context;
-            instance.init();
+            instance.reInit();
         }
         return instance;
     }
@@ -59,6 +60,11 @@ public class GazeView {
     private void init() {
         initManager();
         initParams();
+        initView();
+    }
+
+    private void reInit() {
+        initManager();
         initView();
     }
 

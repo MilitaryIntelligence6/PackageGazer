@@ -24,7 +24,11 @@ import cn.misection.gazer.receiver.NotificationActionReceiver;
 import cn.misection.gazer.system.AppSystem;
 import cn.misection.gazer.view.GazeView;
 
-public class MainActivity extends Activity implements OnCheckedChangeListener {
+/**
+ * @author Administrator
+ */
+public class MainActivity extends Activity
+        implements OnCheckedChangeListener {
 
     private CompoundButton mWindowSwitch;
 
@@ -99,51 +103,52 @@ public class MainActivity extends Activity implements OnCheckedChangeListener {
 
     private void refreshNotificationSwitch() {
         if (mNotificationSwitch != null) {
-            mNotificationSwitch.setChecked(!SharedPrefHelper.hasNotificationToggleEnabled(this));
+            mNotificationSwitch.setChecked(
+                    !SharedPrefHelper.hasNotificationToggleEnabled(this));
         }
     }
 
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        // TODO 这里应该解耦成多个listener;
+        // 遇到 notification button;
         if (buttonView == mNotificationSwitch) {
             if (SharedPrefHelper.hasSettingTileAdded(this)) {
                 SharedPrefHelper.putNotificationToggleEnabled(this, !isChecked);
             } else if (isChecked) {
-                Toast.makeText(this, R.string.toast_add_tile, Toast.LENGTH_LONG).show();
+                Toast.makeText(
+                        this,
+                        R.string.toast_add_tile,
+                        Toast.LENGTH_LONG)
+                        .show();
                 buttonView.setChecked(false);
             } else {
-                SharedPrefHelper.putNotificationToggleEnabled(this, !isChecked);
+                // idCheck == false; 这里put true;
+                SharedPrefHelper
+                        .putNotificationToggleEnabled(this, true);
             }
             return;
         }
-        if (isChecked && buttonView == mWindowSwitch && getResources().getBoolean(R.bool.use_accessibility_service)) {
+        if (isChecked && buttonView == mWindowSwitch
+                && getResources().getBoolean(R.bool.use_accessibility_service)) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1 && !Settings.canDrawOverlays(this)) {
                 new AlertDialog.Builder(this)
                         .setMessage(R.string.dialog_enable_overlay_window_msg)
                         .setPositiveButton(R.string.dialog_enable_overlay_window_positive_btn
-                                , new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION);
-                                        intent.setData(Uri.parse(String.format("package:%s", getPackageName())));
-                                        startActivity(intent);
-                                        dialog.dismiss();
-                                    }
+                                , (dialog, which) -> {
+                                    Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION);
+                                    intent.setData(Uri.parse(String.format("package:%s", getPackageName())));
+                                    startActivity(intent);
+                                    dialog.dismiss();
                                 })
                         .setNegativeButton(android.R.string.cancel
-                                , new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        SharedPrefHelper.putWindowShown(MainActivity.this, false);
-                                        refreshWindowSwitch();
-                                    }
+                                , (dialog, which) -> {
+                                    SharedPrefHelper.putWindowShown(MainActivity.this, false);
+                                    refreshWindowSwitch();
                                 })
-                        .setOnCancelListener(new DialogInterface.OnCancelListener() {
-                            @Override
-                            public void onCancel(DialogInterface dialog) {
-                                SharedPrefHelper.putWindowShown(MainActivity.this, false);
-                                refreshWindowSwitch();
-                            }
+                        .setOnCancelListener(dialog -> {
+                            SharedPrefHelper.putWindowShown(MainActivity.this, false);
+                            refreshWindowSwitch();
                         })
                         .create()
                         .show();
@@ -153,28 +158,15 @@ public class MainActivity extends Activity implements OnCheckedChangeListener {
                 new AlertDialog.Builder(this)
                         .setMessage(R.string.dialog_enable_accessibility_msg)
                         .setPositiveButton(R.string.dialog_enable_accessibility_positive_btn
-                                , new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        SharedPrefHelper.putWindowShown(MainActivity.this, true);
-                                        Intent intent = new Intent();
-                                        intent.setAction("android.settings.ACCESSIBILITY_SETTINGS");
-                                        startActivity(intent);
-                                    }
+                                , (dialog, which) -> {
+                                    SharedPrefHelper.putWindowShown(MainActivity.this, true);
+                                    Intent intent = new Intent();
+                                    intent.setAction("android.settings.ACCESSIBILITY_SETTINGS");
+                                    startActivity(intent);
                                 })
                         .setNegativeButton(android.R.string.cancel
-                                , new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        refreshWindowSwitch();
-                                    }
-                                })
-                        .setOnCancelListener(new DialogInterface.OnCancelListener() {
-                            @Override
-                            public void onCancel(DialogInterface dialog) {
-                                refreshWindowSwitch();
-                            }
-                        })
+                                , (dialog, which) -> refreshWindowSwitch())
+                        .setOnCancelListener(dialog -> refreshWindowSwitch())
                         .create()
                         .show();
                 SharedPrefHelper.putWindowShown(this, true);

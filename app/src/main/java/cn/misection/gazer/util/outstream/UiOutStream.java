@@ -1,7 +1,10 @@
 package cn.misection.gazer.util.outstream;
 
 import android.content.Context;
+import android.util.Log;
 
+import cn.misection.gazer.BuildConfig;
+import cn.misection.gazer.constant.debug.EnumDebugTag;
 import cn.misection.gazer.util.ToastUtil;
 import cn.misection.gazer.view.GazeView;
 
@@ -33,7 +36,13 @@ public class UiOutStream implements IOutStream {
 
     @Override
     public void println(Context context, String s) {
-        // 其实不需要换行;
+        // 其实不需要换行, 习惯使然;
+        if (BuildConfig.DEBUG) {
+            Log.i(EnumDebugTag.NORMAL.value(), s);
+            if (s.length() < 40) {
+                Log.e(EnumDebugTag.WARNING.value(), s);
+            }
+        }
         GazeView.show(context, s);
         ToastUtil.show(context, s);
     }
