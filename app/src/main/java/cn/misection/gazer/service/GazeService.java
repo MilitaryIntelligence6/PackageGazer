@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import cn.misection.gazer.constant.common.EnumString;
 import cn.misection.gazer.dao.SharedPrefHelper;
 import cn.misection.gazer.system.AppSystem;
 
@@ -32,7 +33,7 @@ public class GazeService extends Service {
 
     private ActivityManager mActivityManager;
 
-    private String text = null;
+    private String text = EnumString.EMPTY.value();
 
     private Timer timer;
 

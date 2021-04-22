@@ -56,18 +56,31 @@ public class GazeView {
         return instance;
     }
 
-    public void init() {
+    private void init() {
+        initManager();
+        initParams();
+        initView();
+    }
+
+    private void initManager() {
         mWindowManager = (WindowManager) mContext
                 .getApplicationContext()
                 .getSystemService(Context.WINDOW_SERVICE);
+    }
 
+    private void initParams() {
         mWindowParams = new WindowManager.LayoutParams(
                 WindowManager.LayoutParams.WRAP_CONTENT,
                 WindowManager.LayoutParams.WRAP_CONTENT,
-                Build.VERSION.SDK_INT <= Build.VERSION_CODES.N ?
-                        WindowManager.LayoutParams.TYPE_TOAST : WindowManager.LayoutParams.TYPE_PHONE, 0x18,
+                Build.VERSION.SDK_INT <= Build.VERSION_CODES.N
+                        ? WindowManager.LayoutParams.TYPE_TOAST
+                        : WindowManager.LayoutParams.TYPE_PHONE,
+                0x18,
                 PixelFormat.TRANSLUCENT);
         mWindowParams.gravity = Gravity.LEFT + Gravity.TOP;
+    }
+
+    private void initView() {
         mView = LayoutInflater
                 .from(mContext)
                 .inflate(R.layout.window_tasks, null);
