@@ -21,7 +21,7 @@ import cn.misection.gazer.view.GazeView;
 
 /**
  * @author Administrator
- * 下拉框磁贴;
+ * 下拉框磁贴, 但是好像加载不出来, 可能是权限的问题;
  */
 @TargetApi(Build.VERSION_CODES.N)
 public class QuickSettingTileService extends TileService {
@@ -79,7 +79,8 @@ public class QuickSettingTileService extends TileService {
 
     @Override
     public void onClick() {
-        if (GazeAccessibilityService.requireInstance() == null || !Settings.canDrawOverlays(this)) {
+        if (GazeAccessibilityService.requireInstance() == null
+                || !Settings.canDrawOverlays(this)) {
             Intent intent = new Intent(this, MainActivity.class);
             intent.putExtra(
                     EnumString.EXTRA_FROM_QS_TILE.value(),
@@ -88,7 +89,7 @@ public class QuickSettingTileService extends TileService {
         } else {
             SharedPrefHelper.putWindowShown(this, !SharedPrefHelper.hasWindowShown(this));
             if (SharedPrefHelper.hasWindowShown(this)) {
-                AppSystem.out.println(this, EnumString.EMPTY.value());
+                AppSystem.out.printt(this, EnumString.EMPTY.value());
                 NotificationActionReceiver.showNotification(this, false);
             } else {
                 GazeView.dismiss(this);

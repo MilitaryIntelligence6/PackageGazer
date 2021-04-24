@@ -41,7 +41,7 @@ public class ShortcutsActivity extends Activity {
             GazeView.dismiss(this);
             NotificationActionReceiver.showNotification(this, true);
         } else {
-            AppSystem.out.println(this,
+            AppSystem.out.printt(this,
                     this.getClass().getName());
             NotificationActionReceiver.showNotification(this, false);
         }

@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.Uri;
@@ -53,7 +52,7 @@ public class MainActivity extends Activity
             mNotificationSwitch.setOnCheckedChangeListener(this);
         }
         if (getResources().getBoolean(R.bool.use_watching_service)) {
-            AppSystem.out.println(this, EnumString.EMPTY.value());
+            AppSystem.out.printt(this, EnumString.EMPTY.value());
             startService(new Intent(this, GazeService.class));
         }
         if (getIntent().getBooleanExtra(
@@ -178,7 +177,7 @@ public class MainActivity extends Activity
             if (!isChecked) {
                 GazeView.dismiss(this);
             } else {
-                AppSystem.out.println(this,
+                AppSystem.out.printt(this,
                         this.getClass().getName());
             }
         }

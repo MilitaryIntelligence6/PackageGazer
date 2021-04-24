@@ -101,10 +101,10 @@ public class NotificationActionReceiver extends BroadcastReceiver {
                     ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
                     List<ActivityManager.RunningTaskInfo> runningTasks = am.getRunningTasks(1);
                     ComponentName topActivity = runningTasks.get(0).topActivity;
-                    AppSystem.out.println(context,
+                    AppSystem.out.printt(context,
                             this.getClass().getName());
                 } else {
-                    AppSystem.out.println(context, EnumString.EMPTY.value());
+                    AppSystem.out.printt(context, EnumString.EMPTY.value());
                 }
                 break;
             }

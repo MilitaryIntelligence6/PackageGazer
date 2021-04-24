@@ -1,6 +1,7 @@
 package cn.misection.gazer.util.outstream;
 
 import android.content.Context;
+import android.view.View;
 
 /**
  * @author Military Intelligence 6 root
@@ -14,9 +15,9 @@ public interface IOutStream {
     /**
      * println;
      * @param context
-     * @param s
+     * @param msg
      */
-    void println(Context context, String s);
+    void printt(Context context, String msg);
 
     /**
      * printf;
@@ -25,4 +26,23 @@ public interface IOutStream {
      * @param args
      */
     void printf(Context context, String fmt, Object... args);
+
+    /**
+     * snackbar show;
+     * @param view
+     * @param msg
+     */
+    void prints(View view, String msg);
+
+    /**
+     * echo;
+     * @param msg
+     */
+    void echo(String msg);
+
+    /**
+     * echo;
+     * @param msg
+     */
+    void log(String msg);
 }

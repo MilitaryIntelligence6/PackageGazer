@@ -28,7 +28,7 @@ public class GazeAccessibilityService extends AccessibilityService {
     public void onAccessibilityEvent(AccessibilityEvent event) {
         if (event.getEventType() == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED) {
             if (SharedPrefHelper.hasWindowShown(this)) {
-                AppSystem.out.println(
+                AppSystem.out.printt(
                         this,
                         String.valueOf(event.getClassName()));
             }

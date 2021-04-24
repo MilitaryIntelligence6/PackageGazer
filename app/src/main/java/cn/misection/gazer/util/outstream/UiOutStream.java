@@ -1,12 +1,10 @@
 package cn.misection.gazer.util.outstream;
 
 import android.content.Context;
-import android.util.Log;
+import android.view.View;
 
-import cn.misection.gazer.BuildConfig;
-import cn.misection.gazer.constant.debug.EnumDebugTag;
+import cn.misection.gazer.util.SnackbarUtil;
 import cn.misection.gazer.util.ToastUtil;
-import cn.misection.gazer.view.GazeView;
 
 /**
  * @author Military Intelligence 6 root
@@ -35,21 +33,28 @@ public class UiOutStream implements IOutStream {
     }
 
     @Override
-    public void println(Context context, String s) {
+    public void printt(Context context, String msg) {
         // 其实不需要换行, 习惯使然;
-        if (BuildConfig.DEBUG) {
-            Log.i(EnumDebugTag.NORMAL.value(), s);
-            if (s.length() < 40) {
-                Log.e(EnumDebugTag.WARNING.value(), s);
-            }
-        }
-        GazeView.show(context, s);
-        ToastUtil.show(context, s);
+        ToastUtil.show(context, msg);
     }
 
     @Override
     public void printf(Context context, String fmt, Object... args) {
-        GazeView.show(context, String.format(fmt, args));
         ToastUtil.show(context, String.format(fmt, args));
+    }
+
+    @Override
+    public void prints(View view, String msg) {
+        SnackbarUtil.show(view, msg);
+    }
+
+    @Override
+    public void log(String msg) {
+        System.out.println("hh");
+    }
+
+    @Override
+    public void echo(String msg) {
+        System.err.println("unimpl exception");
     }
 }

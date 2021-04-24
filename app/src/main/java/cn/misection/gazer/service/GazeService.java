@@ -94,7 +94,7 @@ public class GazeService extends Service {
                 if (SharedPrefHelper.hasWindowShown(GazeService.this)) {
                     // TODO 线程池;
                     mHandler.post(() ->
-                            AppSystem.out.println(GazeService.this, text)
+                            AppSystem.out.printt(GazeService.this, text)
                     );
                 }
             }
